@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarah Ouichou - Michael Jackson</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #001a33 50%, #000066 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid rgba(77, 166, 255, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #4da6ff;
+            letter-spacing: 2px;
+        }
+
+        .student-name {
+            font-size: 0.95rem;
+            color: #66b3ff;
+            letter-spacing: 1px;
+        }
+
+        /* ===== HERO / INTRODUCTION ===== */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 102, 204, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #ffffff 0%, #4da6ff 50%, #0066cc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            position: relative;
+            filter: drop-shadow(0 0 30px rgba(77, 166, 255, 0.4));
+        }
+
+        .hero .subtitle {
+            font-size: 1.6rem;
+            color: #4da6ff;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            opacity: 0.8;
+        }
+
+        .hero .intro-line {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #4da6ff, transparent);
+            margin: 0 auto 40px;
+        }
+
+        .hero .description {
+            max-width: 750px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #a0c8ef;
+            position: relative;
+        }
+
+        .hero .description .highlight {
+            color: #4da6ff;
+            font-weight: bold;
+        }
+
+        /* ===== ALBUMS SECTION ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #4da6ff;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .section-line {
+            width: 60px;
+            height: 3px;
+            background: #0066cc;
+            margin: 0 auto 50px;
+        }
+
+        .albums-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* ===== ALBUM CARD ===== */
+        .album-card {
+            background: rgba(0, 20, 40, 0.6);
+            border: 1px solid rgba(77, 166, 255, 0.25);
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .album-card:hover {
+            transform: translateY(-8px);
+            border-color: #4da6ff;
+            box-shadow: 0 12px 40px rgba(77, 166, 255, 0.3);
+        }
+
+        .album-cover-wrapper {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .album-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.4s ease;
+            filter: blur(3px) brightness(0.7);
+        }
+
+        .album-card:hover .album-cover {
+            filter: blur(0px) brightness(1);
+            transform: scale(1.05);
+        }
+
+        .album-cover-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0, 10, 30, 0.9), transparent);
+            pointer-events: none;
+        }
+
+        .album-info {
+            padding: 18px 20px 20px;
+        }
+
+        .album-title {
+            font-size: 1.3rem;
+            color: #4da6ff;
+            font-weight: bold;
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+
+        .album-year {
+            color: #66b3ff;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .album-click-hint {
+            font-size: 0.75rem;
+            color: rgba(77, 166, 255, 0.5);
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-bg {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-bg.active {
+            display: flex;
+        }
+
+        .modal {
+            background: linear-gradient(145deg, #0a1628, #0d2044);
+            border: 2px solid #4da6ff;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 550px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 35px;
+            position: relative;
+            box-shadow: 0 0 60px rgba(77, 166, 255, 0.3);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 22px;
+            font-size: 28px;
+            color: #4da6ff;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.3s;
+        }
+
+        .modal-close:hover {
+            color: #fff;
+        }
+
+        .modal h2 {
+            color: #4da6ff;
+            font-size: 1.7rem;
+            margin-bottom: 6px;
+            letter-spacing: 2px;
+        }
+
+        .modal .modal-year {
+            color: #66b3ff;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            opacity: 0.7;
+        }
+
+        .songs-list {
+            list-style: none;
+        }
+
+        .songs-list li {
+            padding: 11px 15px;
+            margin: 6px 0;
+            background: rgba(0, 30, 60, 0.5);
+            border-left: 3px solid #4da6ff;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            color: #c5dff5;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .songs-list li:hover {
+            background: rgba(77, 166, 255, 0.15);
+            padding-left: 22px;
+            color: #fff;
+        }
+
+        .song-number {
+            color: #4da6ff;
+            font-size: 0.75rem;
+            font-weight: bold;
+            min-width: 20px;
+            opacity: 0.6;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(77, 166, 255, 0.2);
+            margin-top: 40px;
+        }
+
+        footer .footer-name {
+            color: #4da6ff;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        footer p {
+            color: rgba(100, 160, 220, 0.5);
+            font-size: 0.8rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 2.8rem;
+                letter-spacing: 6px;
+            }
+            .hero .subtitle {
+                font-size: 1rem;
+                letter-spacing: 3px;
+            }
+            header {
+                padding: 15px 20px;
+            }
+            .logo {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="logo">MJ</div>
+    <div class="student-name">Sarah Ouichou</div>
+</header>
+
+<!-- HERO / INTRODUCTION -->
+<section class="hero">
+    <h1>MICHAEL JACKSON</h1>
+    <div class="subtitle">The King of Pop</div>
+    <div class="intro-line"></div>
+    <p class="description">
+        <span class="highlight">Michael Jackson</span>, né le 29 août 1958, est l'un des artistes les plus influents de l'histoire de la musique mondiale. 
+        Surnommé le <span class="highlight">"King of Pop"</span>, il a révolutionné la musique pop avec sa voix unique, ses danses incroyables et ses clips vidéo avant-gardistes. 
+        Des premiers succès avec les <span class="highlight">Jackson 5</span> jusqu'à des albums légendaires comme <span class="highlight">Thriller</span>, 
+        Michael Jackson reste une icône qui a inspiré des générations d'artistes. Découvrez ci-dessous ses albums les plus emblématiques.
+    </p>
+</section>
+
+<!-- ALBUMS -->
+<div class="container">
+    <h2 class="section-title">Albums</h2>
+    <div class="section-line"></div>
+    <div class="albums-grid" id="albumsGrid"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modalBg">
+    <div class="modal">
+        <button class="modal-close" id="modalClose">&times;</button>
+        <h2 id="modalTitle"></h2>
+        <div class="modal-year" id="modalYear"></div>
+        <ul class="songs-list" id="songsList"></ul>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-name">Sarah Ouichou</div>
+    <p>Projet de Programmation Web &mdash; Hommage à Michael Jackson</p>
+</footer>
+
+<script>
+    const albums = [
+        {
+            title: "Thriller",
+            year: "1982",
+            image: "image/thriller.jpeg",
+            songs: [
+                "Wanna Be Startin' Somethin'",
+                "Baby Be Mine",
+                "The Girl Is Mine",
+                "Thriller",
+                "Beat It",
+                "Billie Jean",
+                "Human Nature",
+                "P.Y.T. (Pretty Young Thing)",
+                "The Lady in My Life"
+            ]
+        },
+        {
+            title: "Bad",
+            year: "1987",
+            image: "image/bad.jpeg",
+            songs: [
+                "Bad",
+                "The Way You Make Me Feel",
+                "Speed Demon",
+                "Liberian Girl",
+                "Just Good Friends",
+                "Another Part of Me",
+                "Man in the Mirror",
+                "I Just Can't Stop Loving You",
+                "Dirty Diana",
+                "Smooth Criminal"
+            ]
+        },
+        {
+            title: "Dangerous",
+            year: "1991",
+            image: "image/dangerous.jpeg",
+            songs: [
+                "Jam",
+                "Why You Wanna Trip on Me",
+                "In the Closet",
+                "She Drives Me Wild",
+                "Remember the Time",
+                "Can't Let Her Get Away",
+                "Heal the World",
+                "Black or White",
+                "Who Is It",
+                "Give In to Me",
+                "Will You Be There",
+                "Keep the Faith",
+                "Gone Too Soon",
+                "Dangerous"
+            ]
+        },
+        {
+            title: "HIStory",
+            year: "1995",
+            image: "image/history.jpeg",
+            songs: [
+                "Scream",
+                "They Don't Care About Us",
+                "Stranger in Moscow",
+                "This Time Around",
+                "Earth Song",
+                "D.S.",
+                "Money",
+                "Come Together",
+                "You Are Not Alone",
+                "Childhood",
+                "Tabloid Junkie",
+                "2 Bad",
+                "HIStory",
+                "Little Susie",
+                "Smile"
+            ]
+        },
+        {
+            title: "Off the Wall",
+            year: "1979",
+            image: "image/off-the-wall.jpeg",
+            songs: [
+                "Don't Stop 'Til You Get Enough",
+                "Rock with You",
+                "Workin' Day and Night",
+                "Get on the Floor",
+                "Off the Wall",
+                "Girlfriend",
+                "She's Out of My Life",
+                "I Can't Help It",
+                "It's the Falling in Love",
+                "Burn This Disco Out"
+            ]
+        },
+        {
+            title: "Invincible",
+            year: "2001",
+            image: "image/invincible.jpeg",
+            songs: [
+                "Unbreakable",
+                "Heartbreaker",
+                "Invincible",
+                "Break of Dawn",
+                "Heaven Can Wait",
+                "You Rock My World",
+                "Butterflies",
+                "Speechless",
+                "2000 Watts",
+                "You Are My Life",
+                "Privacy",
+                "Don't Walk Away",
+                "Cry",
+                "The Lost Children",
+                "Whatever Happens",
+                "Threatened"
+            ]
+        }
+    ];
+
+    // Créer les cartes d'albums
+    const grid = document.getElementById('albumsGrid');
+
+    albums.forEach(album => {
+        const card = document.createElement('div');
+        card.className = 'album-card';
+        card.innerHTML = `
+            <div class="album-cover-wrapper">
+                <img class="album-cover" src="${album.image}" alt="${album.title}">
+                <div class="album-cover-overlay"></div>
+            </div>
+            <div class="album-info">
+                <div class="album-title">${album.title}</div>
+                <div class="album-year">${album.year}</div>
+                <div class="album-click-hint">Cliquez pour voir les chansons</div>
+            </div>
+        `;
+        card.addEventListener('click', () => openModal(album));
+        grid.appendChild(card);
+    });
+
+    // Modal
+    const modalBg = document.getElementById('modalBg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalYear = document.getElementById('modalYear');
+    const songsList = document.getElementById('songsList');
+    const modalClose = document.getElementById('modalClose');
+
+    function openModal(album) {
+        modalTitle.textContent = album.title;
+        modalYear.textContent = album.year;
+        songsList.innerHTML = '';
+
+        album.songs.forEach((song, i) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="song-number">${i + 1}</span> ${song}`;
+            songsList.appendChild(li);
+        });
+
+        modalBg.classList.add('active');
+    }
+
+    modalClose.onclick = () => modalBg.classList.remove('active');
+    modalBg.addEventListener('click', (e) => {
+        if (e.target === modalBg) modalBg.classList.remove('active');
+    });
+</script>
+
+</body>
+</html>
